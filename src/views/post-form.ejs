@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media - <%= post ? 'Editar' : 'Nuevo' %> Post</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo center">Social Media</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-card">
+            <h5>
+                <i class="material-icons"><%= post ? 'edit' : 'add_circle' %></i>
+                <%= post ? 'Editar Post' : 'Nuevo Post' %>
+            </h5>
+
+            <form action="<%= action %>" method="POST">
+
+                <% if (!post) { %>
+                <div class="input-field">
+                    <select name="userId" required>
+                        <option value="" disabled selected>Selecciona un autor</option>
+                        <% users.forEach(user => { %>
+                            <option value="<%= user._id %>"><%= user.name %> <%= user.lastName %></option>
+                        <% }); %>
+                    </select>
+                    <label>Autor</label>
+                </div>
+                <% } %>
+
+                <div class="input-field">
+                    <input type="text" name="title" id="title"
+                        value="<%= post ? post.title : '' %>"
+                        minlength="5" maxlength="30" required>
+                    <label for="title" class="<%= post ? 'active' : '' %>">
+                        Título (5-30 caracteres)
+                    </label>
+                </div>
+
+                <div class="input-field">
+                    <textarea name="content" id="content"
+                        class="materialize-textarea"
+                        minlength="10" required><%= post ? post.content : '' %></textarea>
+                    <label for="content" class="<%= post ? 'active' : '' %>">
+                        Contenido (mínimo 10 caracteres)
+                    </label>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="imageUrl" id="imageUrl"
+                        value="<%= post ? (post.imageUrl || '') : '' %>">
+                    <label for="imageUrl" class="<%= post ? 'active' : '' %>">
+                        URL de imagen (opcional)
+                    </label>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="hashtags" id="hashtags"
+                        value="<%= post && post.hashtags ? post.hashtags.join(', ') : '' %>">
+                    <label for="hashtags" class="<%= post ? 'active' : '' %>">
+                        Hashtags (separados por comas)
+                    </label>
+                </div>
+
+                <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">
+                        <i class="material-icons left">save</i><%= post ? 'Actualizar' : 'Crear Post' %>
+                    </button>
+                    <a href="/posts" class="btn btn-secondary waves-effect">
+                        <i class="material-icons left">arrow_back</i>Cancelar
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            M.FormSelect.init(document.querySelectorAll('select'));
+            M.updateTextFields();
+        });
+    </script>
+</body>
+
+</html>

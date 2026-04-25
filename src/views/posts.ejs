@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media - Posts</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo center">Social Media</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h4>Posts</h4>
+            <a href="/posts/new" class="btn btn-primary waves-effect waves-light">
+                <i class="material-icons left">add</i>Nuevo Post
+            </a>
+        </div>
+
+        <% if (posts.length === 0) { %>
+            <div class="empty-state">
+                <i class="material-icons">inbox</i>
+                <p>No hay posts disponibles. ¡Crea el primero!</p>
+            </div>
+        <% } else { %>
+            <div class="posts-grid">
+                <% posts.forEach(post => { %>
+                    <div class="post-card">
+                        <% if (post.imageUrl) { %>
+                            <img class="card-img" src="<%= post.imageUrl %>" alt="Imagen del post">
+                        <% } %>
+                        <div class="card-body">
+                            <span class="card-title"><%= post.title %></span>
+                            <p class="card-text"><%= post.content %></p>
+                            <% if (post.hashtags && post.hashtags.length > 0) { %>
+                                <div class="hashtags">
+                                    <% post.hashtags.forEach(tag => { %>
+                                        <span class="tag">#<%= tag %></span>
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="card-footer">
+                            <span class="author">
+                                <%= post.user ? post.user.name + ' ' + post.user.lastName : 'Desconocido' %>
+                            </span>
+                            <div class="card-actions">
+                                <a href="/posts/<%= post._id %>/edit" class="btn-icon edit" title="Editar">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                                <form action="/posts/<%= post._id %>/delete" method="POST" style="margin:0;">
+                                    <button type="submit" class="btn-icon delete" title="Eliminar"
+                                        onclick="return confirm('¿Eliminar este post?')">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>

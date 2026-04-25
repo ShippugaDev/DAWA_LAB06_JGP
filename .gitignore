@@ -1,0 +1,32 @@
+# Dependencias de Node.js
+node_modules/
+
+# Variables de entorno
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de editor
+.vscode/
+.idea/
+
+# Build o archivos temporales
+dist/
+build/
+tmp/
+temp/
+
+# Coverage de pruebas
+coverage/
+
+# MongoDB local data, si lo pusiste dentro del proyecto
+data/
